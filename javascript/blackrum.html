@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlackRum</title>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 50px;
+      }
+
+      textarea {
+        font-family: "Courier";
+        font-size: 12;
+        width: 100%;
+        border-style: none;
+        outline: none;
+        resize: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation"
+         id="button-bar">
+      <div class="container-fluid">
+        <div class="navbar-header" style="display: flex;">
+          <a class="navbar-brand" href="#">BlackRum</a>
+        <iframe class="github-btn"
+              src="http://ghbtns.com/github-btn.html?user=crazywolf132&amp;repo=blackrum-visualizer&amp;type=watch&amp;count=true"
+              allowtransparency="true"
+              frameborder="0"
+              style="margin-left:15px;
+                     margin-top: 15px"
+              scrolling="0"
+              width="80px"
+              height="20px">
+        </iframe>
+        <iframe class="github-btn"
+              src="http://ghbtns.com/github-btn.html?user=crazywolf132&amp;repo=blackrum-visualizer&amp;type=fork&amp;count=true"
+              allowtransparency="true"
+              frameborder="0"
+              style="margin-top: 15px"
+              scrolling="0"
+              width="80px"
+              height="20px">
+        </iframe>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            <small>Instructions per cycle:</small>
+            <input type="number" class="form-control"
+                   value="1" min="1" id="inst-per-cycle"
+                   style="width: 100px;">
+            <small>Cycle delay (ms):</small>
+            <input type="number" class="form-control"
+                   value="0" min="0" id="cycle-delay"
+                   style="width: 80px;">
+            <button class="btn btn-success" id="btn-start">
+              <span class="glyphicon glyphicon-play"></span>
+              <span id="btn-start-label">Start</span>
+            </button>
+            <button class="btn btn-info disabled" id="btn-pause">
+              <span class="glyphicon glyphicon-pause"></span>
+              Pause
+            </button>
+            <button class="btn btn-warning" id="btn-step">
+              <span class="glyphicon glyphicon-step-forward"></span>
+              Step
+            </button>
+            <button class="btn btn-danger disabled" id="btn-stop">
+              <span class="glyphicon glyphicon-stop"></span>
+              Stop
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid" id="panels-body">
+      <div class="row">
+        <div class="col-md-6" style="padding-left: 15px;
+                                     padding-right: 7px;
+                                     padding-top: 15px;">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h5>
+                Program
+                <small> PC: </small>
+                <span id="program-counter" class="badge">N/A</span>
+                <small> Opcode: </small>
+                <span id="program-opcode" class="label label-default">N/A</span>
+                <div style="float: right; margin-top: -10px;">
+                  <button class="btn btn-primary" id="btn-optimize">
+                    <span class="glyphicon glyphicon-flash"></span>
+                    Optimize
+                  </button>
+                </div>
+              </h5>
+            </div>
+            <div class="panel-body">
+              <textarea wrap=off id="program">ponirbc</textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" style="padding-left: 7px;
+                                     padding-right: 15px;
+                                     padding-top: 15px;">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h5>
+                Input
+                <small> In Ptr: </small>
+                <span id="input-ptr" class="badge">N/A</span>
+                <small> Value: </small>
+                <span id="input-value" class="label label-default">N/A</span>
+              </h5>
+            </div>
+            <div class="panel-body">
+              <textarea wrap=off id="input">1234</textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4" style="padding-left: 15px;
+                                     padding-right: 7px;">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h5>
+                Memory
+                <small> Mem Size: </small>
+                <span id="memory-size" class="badge">N/A</span>
+                <small> Mem Ptr: </small>
+                <span id="memory-ptr" class="badge">N/A</span>
+                <small> Value: </small>
+                <span id="memory-value" class="label label-default">N/A</span>
+              </h5>
+            </div>
+            <div class="panel-body">
+              <textarea wrap=off id="memory" readonly></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8" style="padding-left: 7px;
+                                     padding-right: 15px;">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h5>
+                Output
+                <small> Cycles: </small>
+                <span id="cycles-count" class="badge">N/A</span>
+                <small> Running time: </small>
+                <span id="running-time" class="label label-default">N/A</span>
+                <small> Result: </small>
+                <span class="label label-default" id="result">
+                  N/A
+                </span>
+              </h5>
+            </div>
+            <div class="panel-body">
+              <textarea wrap=off id="output" readonly></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script src="blackrum.js"></script>
+
+  </body>
+</html>

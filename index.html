@@ -1,0 +1,22 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <iframe id="main-iframe"
+            src="javascript/blackrum.html"
+            style="border: none;
+                   margin-top: -10px;
+                   margin-left: -10px;">
+    </iframe>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+          $('#main-iframe').css('width', $(window).width());
+          $('#main-iframe').css('height', $(window).height());
+      });
+    </script>
+  </body>
+</html>
